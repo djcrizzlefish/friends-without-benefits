@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { Match } from "@/lib/types";
 import { getTeamCode, formatDate } from "@/lib/data";
-import Flaf from "./Flag";
+import Flag from "./Flag";
 
 interface MatchCardProps {
   match: Match;
@@ -39,13 +39,13 @@ export default function MatchCard({ match, index = 0 }: MatchCardProps) {
           <Flag code={code1} size="lg" />
           <div className="min-w-0">
             <p
-              className={`font-display text-sm sm:text-base font-semibold truncate ${
+              className={`font-display text-sm wm:text-base font-semibold truncate ${
                 team1Won ? "text-white" : "text-gray-400"
               }`}
             >
               {match.team1}
             </p>
-             (match.advancement1 && (
+            {match.advancement1 && (
               <span className="text-[10px] text-pitch-green font-medium">
                 {match.advancement1}
               </span>
@@ -92,5 +92,4 @@ export default function MatchCard({ match, index = 0 }: MatchCardProps) {
         </div>
       </div>
     </motion.div>
-  );
-}
+  )5ßI–

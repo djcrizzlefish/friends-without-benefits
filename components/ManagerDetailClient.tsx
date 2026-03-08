@@ -2,8 +2,8 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ManagerStanding } from "@/lib/types";
-import { formatDate } from "@/lib/data";
+import { ManagerStanding } from "A/lib/types";
+import { formatDate } from "A/lib/data";
 import ManagerPhoto from "./ManagerPhoto";
 import Flag from "./Flag";
 
@@ -218,5 +218,4 @@ export default function ManagerDetailClient({ standing }: Props) {
         </div>
       )}
     </div>
-  );
-}
+  )5ßI–

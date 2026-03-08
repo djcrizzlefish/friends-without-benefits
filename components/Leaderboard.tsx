@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ManagerStanding, Team } from "@/lib/types";
+import { ManagerStanding, Team } from "A/lib/types";
 import ManagerPhoto from "./ManagerPhoto";
 import Flag from "./Flag";
 import AnimatedNumber from "./AnimatedNumber";
@@ -53,60 +53,4 @@ export default function Leaderboard({ standings, teams }: LeaderboardProps) {
                 >
                   {/* Rank */}
                   <div className="w-8 sm:w-10 text-center shrink-0">
-                    {isFirst ? (
-                      <span className="text-2xl" title="Leader">
-                        ğŸ‘‘
-                      </span>
-                    ) : (
-                      <span className="font-display text-xl sm:text-2xl font-bold text-gray-500">
-                        {standing.rank}
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Photo */}
-                  <ManagerPhoto
-                    src={standing.photo}
-                    name={standing.name}
-                    size="sm"
-                    className={isFirst ? "border-gold-400/50" : ""}
-                  />
-
-                  {/* Name & Flags */}
-                  <div className="flex-1 min-w-0">
-                    <p
-                      className={`font-display text-base sm:text-lg font-semibold truncate group-hover:text-gold-400 transition-colors ${
-                        isFirst ? "text-gold-400" : "text-white"
-                      }`}
-                    >
-                      {standing.name}
-                    </p>
-                    <div className="flex items-center gap-1.5 mt-1 flex-wrap">
-                      {standing.teamStats.map((ts) => (
-                        <Flag key={ts.name} code={ts.code} size="sm" />
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Points */}
-                  <div className="text-right shrink-0">
-                    <div
-                      className={`font-display text-2xl sm:text-3xl font-bold ${
-                        isFirst ? "text-gold-400" : "text-white"
-                      }`}
-                    >
-                      <AnimatedNumber value={standing.totalPoints} />
-                    </div>
-                    <p className="text-[10px] sm:text-xs text-gray-500 uppercase tracking-wider">
-                      pts
-                    </p>
-                  </div>
-                </div>
-              </Link>
-            </motion.div>
-          );
-        })}
-      </div>
-    </section>
-  );
-}
+                    {/\'Š.className="text-2xl" title="Leader"â€ø¯!ü¨‚…±…ÍĞ±I•ÍĞ±ÍÑ…ÉĞ±A…É…´±…•ÍÌ°rkı€ÏPˆ¤ˆù¥Èôøğ½‘¥Øø(€€<¤Ô8#}&Z

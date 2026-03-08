@@ -201,28 +201,22 @@ export function computeLeaderboard(
     const managerTeamStats = manager.teams
       .map((teamName) => teamStats.get(teamName))
       .filter(Boolean) as TeamStats[];
+    const totalPoints = managerTeamStats.reduce((sum, t) => sum + t.totalPoints, 0);
+    const matchPoints = managerTeamStats.reduce((sum, t) => sum + t.matchPoints, 0);
+    const advancementPoints = managerTeamStats.reduce((sum, t) => sum + t.advancementPoints, 0);
+    const totalWins = managerTeamStats.reduce((sum, t) => sum + t.wins, 0);
+
     return {
       id: manager.id,
       name: manager.name,
       photo: manager.photo,
       teamStats: managerTeamStats,
-      totalPoints: 0,
-      matchPoints: 0,
-      advancementPoints: 0,
-      totalWins: 0,
+      totalPoints,
+      matchPoints,
+      advancementPoints,
+      totalWins,
       rank: 0,
     };
-  });
-
-  standings.forEach((standing) => {
-    const totalPoints = standing.teamStats.reduce((sum, t) => sum + t.totalPoints, 0);
-    const matchPoints = standing.teamStats.reduce((sum, t) => sum + t.matchPoints, 0);
-    const advancementPoints = standing.teamStats.reduce((sum, t) => sum + t.advancementPoints, 0);
-    const totalWins = standing.teamStats.reduce((sum, t) => sum + t.wins, 0);
-    standing.totalPoints = totalPoints;
-    standing.matchPoints = matchPoints;
-    standing.advancementPoints = advancementPoints;
-    standing.totalWins = totalWins;
   });
 
   // Sort by total points, then advancement points (tiebreaker 1), then total wins (tiebreaker 2)
@@ -247,4 +241,38 @@ export function computeLeaderboard(
   });
 
   return standings;
+}
+
+/**
+ * Get summary stats for the tournament.
+ */
+export function getTournamentStats(
+  managers: Manager[],
+  matches: Match[]
+) {
+  const totalGoals = matches.reduce((sum, m) => sum + m.goals1 + m.goals2, 0);
+  const totalTeamsDrafted = new Set(managers.flatMap((m) => m.teams)).size;
+
+  return {
+    totalManagers: managers.length,
+    teamsDrafted: totalTeamsDrafted,
+    matchesPlayed: matches.length,
+    totalGoals,
+  };
+}
+
+/**
+ * Get team stats for a specific manager.
+ */
+export function getManagerTeamStats(
+  managerId: string,
+  managers: Manager[],
+  matches: Match[],
+  teams: Team[]
+): ManagerStanding | null {
+  const manager = managers.find((m) => m.id === managerId);
+  if (!manager) return null;
+
+  const leaderboard = computeLeaderboard(managers, matches, teams);
+  return leaderboard.find((s) => s.id === managerId) || null;
 }

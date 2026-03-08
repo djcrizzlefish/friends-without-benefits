@@ -61,6 +61,6 @@ export interface ManagerStanding {
   totalPoints: number;
   matchPoints: number;
   advancementPoints: number;
-  totalWins> number;
+  totalWins: number;
   rank: number;
 }

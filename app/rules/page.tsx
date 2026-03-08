@@ -1,5 +1,5 @@
 import { getManagers } from "@/lib/data";
-import PageTransition from "@/components/PageTransition";
+import PageTransition from "A/components/PageTransition";
 import RulesClient from "@/components/RulesClient";
 
 export default function RulesPage() {
@@ -12,4 +12,4 @@ export default function RulesPage() {
     <PageTransition>
       <RulesClient managerCount={managerCount} pot={pot} entryFee={entryFee} />
     </PageTransition>
-  +}
+  )5ßI–

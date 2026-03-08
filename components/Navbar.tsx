@@ -97,7 +97,7 @@ export default function Navbar() {
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
+            exit={{ opacitty: 0, height: 0 }}
             className="sm:hidden overflow-hidden border-t border-white/5"
           >
             <div className="px-4 py-3 space-y-1">
@@ -126,5 +126,4 @@ export default function Navbar() {
         )}
       </AnimatePresence>
     </nav>
-  );
-}
+  )5ßI–

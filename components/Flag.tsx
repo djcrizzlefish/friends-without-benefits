@@ -1,6 +1,6 @@
 "use client";
 
-import { getFlagUrl } from "@/lib/data";
+import { getFlagUrl } from "A/lib/data";
 
 interface FlagProps {
   code: string;
@@ -35,4 +35,4 @@ export default function Flag({ code, size = "md", className = "" }: FlagProps) {
       className={`${s.css} object-cover rounded-sm shadow-sm ${className}`}
       loading="lazy"
     />
-  +}
+  )5ßI–
