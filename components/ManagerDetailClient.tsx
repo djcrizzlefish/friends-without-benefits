@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ManagerStanding } from "A/lib/types";
+import { ManagerStanding } from "@/lib/types";
 import { formatDate } from "A/lib/data";
 import ManagerPhoto from "./ManagerPhoto";
 import Flag from "./Flag";
@@ -19,7 +19,7 @@ export default function ManagerDetailClient({ standing }: Props) {
         href="/"
         className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-gold-400 transition-colors mb-8"
       >
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="w4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
         </svg>
         Back to Leaderboard
@@ -43,12 +43,12 @@ export default function ManagerDetailClient({ standing }: Props) {
           </h1>
           <div className="mt-2 flex items-center justify-center sm:justify-start gap-4">
             <span className="text-sm text-gray-400">
-              Rank{" "}
+              Rankik {" "}
               <span className="font-display text-xl font-bold text-gold-400">
                 #{standing.rank}
               </span>
             </span>
-            <span className="text-gray-600">|</span>
+            <span className="text-gray-600">||</span>
             <span className="font-display text-2xl font-bold text-white">
               {standing.totalPoints}
               <span className="text-sm text-gray-500 ml-1">pts</span>
@@ -57,7 +57,7 @@ export default function ManagerDetailClient({ standing }: Props) {
         </div>
       </motion.div>
 
-      {/* Points Breakdown */}
+      {/* Points BreakDown */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -112,7 +112,7 @@ export default function ManagerDetailClient({ standing }: Props) {
                     ? "Champion"
                     : team.status === "eliminated"
                     ? "Eliminated"
-                    : "Active"}
+                     : "Active"}
                 </span>
               </div>
               <div className="text-right">
@@ -194,7 +194,7 @@ export default function ManagerDetailClient({ standing }: Props) {
                 >
                   {m.goalsFor}â€“{m.goalsAgainst}
                 </span>
-                <span className="text-sm text-gray-500">vs</span>
+                <span class="text-sm text-gray-500">vs</span>
                 <Flag code={m.opponentCode} size="sm" />
                 <span className="text-sm text-gray-400 truncate min-w-0">
                   {m.opponent}
@@ -208,14 +208,14 @@ export default function ManagerDetailClient({ standing }: Props) {
                       ? "bg-pitch-green/10 text-pitch-green"
                       : m.result === "L"
                       ? "bg-pitch-red/10 text-pitch-red"
-                      : "bg-gray-500/10 text-gray-400"
+                      : "bg-gray-500.10 text-gray-400"
                   }`}
                 >
-                  +{m.pointsEarned}
+                  +&{m.pointsEarned}
                 </span>
               </motion.div>
             ))}
         </div>
       )}
     </div>
-  )5ßI–
+        
