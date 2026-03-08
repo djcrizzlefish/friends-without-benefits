@@ -1,0 +1,50 @@
+[
+  {
+    "id": "chris",
+    "name": "Chris",
+    "photo": "/images/managers/chris.jpg",
+    "teams": ["Argentina", "Japan", "Ghana", "Costa Rica", "Bahrain", "Indonesia"]
+  },
+  {
+    "id": "mike",
+    "name": "Mike",
+    "photo": "/images/managers/mike.jpg",
+    "teams": ["Brazil", "England", "Nigeria", "Tunisia", "Honduras", "Bolivia"]
+  },
+  {
+    "id": "sarah",
+    "name": "Sarah",
+    "photo": "/images/managers/sarah.jpg",
+    "teams": ["France", "Spain", "South Korea", "Ecuador", "Panama", "Trinidad and Tobago"]
+  },
+  {
+    "id": "dan",
+    "name": "Dan",
+    "photo": "/images/managers/dan.jpg",
+    "teams": ["Germany", "Portugal", "Mexico", "Senegal", "Ukraine", "Qatar"]
+  },
+  {
+    "id": "jess",
+    "name": "Jess",
+    "photo": "/images/managers/jess.jpg",
+    "teams": ["Italy", "Netherlands", "United States", "Morocco", "Cameroon", "New Zealand"]
+  },
+  {
+    "id": "tom",
+    "name": "Tom",
+    "photo": "/images/managers/tom.jpg",
+    "teams": ["Belgium", "Uruguay", "Croatia", "Denmark", "Peru", "Egypt"]
+  },
+  {
+    "id": "alex",
+    "name": "Alex",
+    "photo": "/images/managers/alex.jpg",
+    "teams": ["Colombia", "Poland", "Australia", "Switzerland", "Iran", "Chile"]
+  },
+  {
+    "id": "kim",
+    "name": "Kim",
+    "photo": "/images/managers/kim.jpg",
+    "teams": ["Canada", "Serbia", "Ivory Coast", "Saudi Arabia", "Paraguay", "Wales"]
+  }
+]
