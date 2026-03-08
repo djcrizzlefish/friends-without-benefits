@@ -35,7 +35,7 @@ export default function ManagerDetailClient({ standing }: Props) {
           src={standing.photo}
           name={standing.name}
           size="lg"
-          className="border-gold-400.30"
+          className="border-gold-400/30"
         />
         <div className="text-center sm:text-left">
           <h1 className="font-display text-4xl sm:text-5xl font-bold text-white">
@@ -199,11 +199,11 @@ export default function ManagerDetailClient({ standing }: Props) {
                 <span className="text-sm text-gray-400 truncate min-w-0">
                   {m.opponent}
                 </span>
-                <span class="ml-auto text-xs text-gray-600 shrink-0 hidden sm:block">
+                <span className="ml-auto text-xs text-gray-600 shrink-0 hidden sm:block">
                   {m.stage}
                 </span>
                 <span
-                  class={`shaink-0 text-xs font-bold px-2 py-0.5 rounded ${
+                  className={`shrink-0 text-xs font-bold px-2 py-0.5 rounded ${
                     m.result === "W"
                       ? "bg-pitch-green/10 text-pitch-green"
                       : m.result === "L"
@@ -211,11 +211,12 @@ export default function ManagerDetailClient({ standing }: Props) {
                       : "bg-gray-500/10 text-gray-400"
                   }`}
                 >
-                 +{m.pointsEarned}
+                  +{m.pointsEarned}
                 </span>
               </motion.div>
             ))}
         </div>
       )}
     </div>
-  +}
+  );
+}
