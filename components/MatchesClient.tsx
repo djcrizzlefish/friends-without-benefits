@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Match } from "A/lib/types";
+import { Match } from "@/lib/types";
 import MatchCard from "./MatchCard";
 
 const STAGES = [
@@ -59,8 +59,8 @@ export default function MatchesClient({ matches }: Props) {
                   : "bg-navy-700 text-gray-400 hover:bg-navy-600 hover:text-gray-200"
               }`}
             >
-               {stage}
-               {count > 0 && (
+              {stage}
+              {count > 0 && (
                 <span className="ml-1.5 text-xs opacity-70">{count}</span>
               )}
             </button>
@@ -75,7 +75,7 @@ export default function MatchesClient({ matches }: Props) {
           animate={{ opacity: 1 }}
           className="glass-card rounded-2xl p-12 text-center"
         >
-          <div className="text-5xl mb-4">¹ªíÌŠ</div>
+          <div className="text-5xl mb-4">âš½</div>
           <h2 className="font-display text-2xl text-gray-300 mb-2">
             Tournament Kicks Off Soon
           </h2>
@@ -94,4 +94,5 @@ export default function MatchesClient({ matches }: Props) {
         </div>
       )}
     </div>
-  )5ßI–
+  );
+}
