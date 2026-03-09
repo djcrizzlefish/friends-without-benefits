@@ -5,6 +5,7 @@ import MatchesClient from "@/components/MatchesClient";
 export default function MatchesPage() {
   const matches = getMatches();
   const managers = getManagers();
+
   return (
     <PageTransition>
       <MatchesClient matches={matches} managers={managers} />

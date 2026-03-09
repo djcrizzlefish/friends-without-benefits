@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { getManagers, getMatches, getTeams, formatDate } from "@/lib/data";
+import { getManagers, getMatches, getTeams } from "@/lib/data";
 import { computeLeaderboard } from "@/lib/scoring";
 import PageTransition from "@/components/PageTransition";
 import ManagerDetailClient from "@/components/ManagerDetailClient";

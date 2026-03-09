@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useRef, useCallback } from "react";
+import { motion, useInView } from "framer-motion";
 import Link from "next/link";
 import { ManagerStanding } from "@/lib/types";
 import { formatDate } from "@/lib/data";
@@ -12,12 +13,14 @@ interface Props {
 }
 
 export default function ManagerDetailClient({ standing }: Props) {
-  // Sort: active teams first, then eliminated
   const sortedTeams = [...standing.teamStats].sort((a, b) => {
     if (a.eliminated && !b.eliminated) return 1;
     if (!a.eliminated && b.eliminated) return -1;
     return b.totalPoints - a.totalPoints;
   });
+
+  const teamsRef = useRef(null);
+  const teamsInView = useInView(teamsRef, { once: true, margin: "-30px" });
 
   return (
     <div className="mx-auto max-w-4xl px-4 sm:px-6 pt-8 sm:pt-12">
@@ -26,8 +29,18 @@ export default function ManagerDetailClient({ standing }: Props) {
         href="/"
         className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-gold-400 transition-colors mb-8"
       >
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+        <svg
+          className="w-4 h-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M15 19l-7-7 7-7"
+          />
         </svg>
         Back to Leaderboard
       </Link>
@@ -38,14 +51,16 @@ export default function ManagerDetailClient({ standing }: Props) {
         animate={{ opacity: 1, y: 0 }}
         className="flex flex-col sm:flex-row items-center sm:items-start gap-6 mb-10"
       >
-        <ManagerPhoto
-          src={standing.photo}
-          name={standing.name}
-          size="lg"
-          className="border-gold-400/30"
-        />
+        <div className="ken-burns-container shrink-0">
+          <ManagerPhoto
+            src={standing.photo}
+            name={standing.name}
+            size="lg"
+            className="border-gold-400/30"
+          />
+        </div>
         <div className="text-center sm:text-left">
-          <h1 className="font-display text-4xl sm:text-5xl font-bold text-white">
+          <h1 className="font-display text-4xl sm:text-5xl font-bold text-white manager-name-hover">
             {standing.name}
           </h1>
           <div className="mt-2 flex items-center justify-center sm:justify-start gap-4">
@@ -56,8 +71,8 @@ export default function ManagerDetailClient({ standing }: Props) {
               </span>
             </span>
             <span className="text-gray-600">|</span>
-            <span className="font-display text-2xl font-bold text-white">
-              {standing.totalPoints}
+            <span className="font-display text-2xl font-bold text-white point-glow">
+              {standing.totalPoints}{" "}
               <span className="text-sm text-gray-500 ml-1">pts</span>
             </span>
             {standing.pointChange > 0 && (
@@ -93,9 +108,21 @@ export default function ManagerDetailClient({ standing }: Props) {
         className="grid grid-cols-3 gap-4 mb-10"
       >
         {[
-          { label: "Total Points", value: standing.totalPoints, color: "text-gold-400" },
-          { label: "Match Points", value: standing.matchPoints, color: "text-white" },
-          { label: "Advancement", value: standing.advancementPoints, color: "text-pitch-green" },
+          {
+            label: "Total Points",
+            value: standing.totalPoints,
+            color: "text-gold-400",
+          },
+          {
+            label: "Match Points",
+            value: standing.matchPoints,
+            color: "text-white",
+          },
+          {
+            label: "Advancement",
+            value: standing.advancementPoints,
+            color: "text-pitch-green",
+          },
         ].map((stat) => (
           <div key={stat.label} className="glass-card rounded-xl p-4 text-center">
             <p className={`font-display text-3xl font-bold ${stat.color}`}>
@@ -112,15 +139,15 @@ export default function ManagerDetailClient({ standing }: Props) {
       <h2 className="font-display text-xl font-bold text-white mb-4 uppercase tracking-wider">
         Drafted Teams
       </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
+      <div ref={teamsRef} className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
         {sortedTeams.map((team, i) => {
           const isEliminated = team.eliminated;
           return (
             <motion.div
               key={team.name}
               initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.15 + i * 0.05 }}
+              animate={teamsInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: 0.1 + i * 0.05 }}
               className={`glass-card rounded-xl p-4 sm:p-5 transition-all ${
                 isEliminated ? "opacity-60" : ""
               }`}
@@ -214,7 +241,10 @@ export default function ManagerDetailClient({ standing }: Props) {
                 teamEliminated: ts.eliminated,
               }))
             )
-            .sort((a, b) => b.date.localeCompare(a.date) || b.matchId - a.matchId)
+            .sort(
+              (a, b) =>
+                b.date.localeCompare(a.date) || b.matchId - a.matchId
+            )
             .map((m, i) => (
               <motion.div
                 key={`${m.matchId}-${m.teamName}`}
@@ -223,7 +253,11 @@ export default function ManagerDetailClient({ standing }: Props) {
                 transition={{ delay: 0.2 + i * 0.03 }}
                 className="glass-card rounded-lg p-3 sm:p-4 flex items-center gap-3"
               >
-                <span className={m.teamEliminated ? "grayscale opacity-50" : ""}>
+                <span
+                  className={
+                    m.teamEliminated ? "grayscale opacity-50" : ""
+                  }
+                >
                   <Flag code={m.teamCode} size="sm" />
                 </span>
                 <span

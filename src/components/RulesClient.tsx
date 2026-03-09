@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
 
 interface Props {
   managerCount: number;
@@ -24,7 +25,7 @@ export default function RulesClient({ managerCount, pot, entryFee }: Props) {
 
   const sections = [
     {
-      icon: "🏆",
+      icon: "🏟",
       title: "League Format",
       items: [
         `${managerCount} managers, $${entryFee} entry fee each`,
@@ -45,7 +46,7 @@ export default function RulesClient({ managerCount, pot, entryFee }: Props) {
       ],
     },
     {
-      icon: "🚀",
+      icon: "📈",
       title: "Advancement Bonuses",
       items: [
         "Round of 32: 5 points",
@@ -57,7 +58,7 @@ export default function RulesClient({ managerCount, pot, entryFee }: Props) {
       ],
     },
     {
-      icon: "⚔️",
+      icon: "⚖️",
       title: "Knockout Round Rules",
       items: [
         "If a knockout match is tied after 90 minutes, both teams get the 1-point draw",
@@ -68,7 +69,7 @@ export default function RulesClient({ managerCount, pot, entryFee }: Props) {
       ],
     },
     {
-      icon: "🕗",
+      icon: "🏆",
       title: "Tiebreakers",
       items: [
         "1st tiebreaker: Most total advancement bonus points",
@@ -131,7 +132,8 @@ export default function RulesClient({ managerCount, pot, entryFee }: Props) {
             key={section.title}
             custom={i}
             initial="hidden"
-            animate="visible"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-30px" }}
             variants={cardVariants}
             className="glass-card rounded-xl p-5 sm:p-6"
           >
@@ -141,7 +143,10 @@ export default function RulesClient({ managerCount, pot, entryFee }: Props) {
             </h3>
             <ul className="space-y-2">
               {section.items.map((item, j) => (
-                <li key={j} className="flex items-start gap-2 text-sm text-gray-300">
+                <li
+                  key={j}
+                  className="flex items-start gap-2 text-sm text-gray-300"
+                >
                   <span className="text-gold-400 mt-0.5 shrink-0">•</span>
                   <span>{item}</span>
                 </li>

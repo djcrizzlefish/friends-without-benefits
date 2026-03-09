@@ -51,7 +51,11 @@ export default function Navbar() {
                     <motion.div
                       layoutId="navbar-indicator"
                       className="absolute bottom-0 left-2 right-2 h-0.5 bg-gold-400 rounded-full"
-                      transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 500,
+                        damping: 30,
+                      }}
                     />
                   )}
                 </Link>

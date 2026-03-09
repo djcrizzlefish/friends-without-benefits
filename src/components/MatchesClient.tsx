@@ -30,7 +30,6 @@ export default function MatchesClient({ matches, managers }: Props) {
       ? matches
       : matches.filter((m) => m.stage === activeStage);
 
-  // Sort most recent first
   const sorted = [...filtered].sort(
     (a, b) => b.date.localeCompare(a.date) || b.id - a.id
   );
@@ -40,9 +39,7 @@ export default function MatchesClient({ matches, managers }: Props) {
       <h1 className="font-display text-4xl sm:text-5xl font-bold text-white mb-2">
         MATCHES
       </h1>
-      <p className="text-gray-500 mb-8">
-        All results from the tournament
-      </p>
+      <p className="text-gray-500 mb-8">All results from the tournament</p>
 
       {/* Stage filter tabs */}
       <div className="flex gap-2 overflow-x-auto pb-3 mb-6 scrollbar-hide">
