@@ -23,17 +23,6 @@ body {
   font-family: "DM Sans", sans-serif;
 }
 
-/* ===== Custom Cursor (desktop only) ===== */
-@media (pointer: fine) {
-  body.cursor-ready {
-    cursor: none;
-  }
-  body.cursor-ready a,
-  body.cursor-ready button,
-  body.cursor-ready [role="button"] {
-    cursor: none;
-  }
-}
 
 /* ===== Grain texture overlay ===== */
 body::before {
@@ -334,7 +323,7 @@ body::after {
 /* ===== Individual floating flag ===== */
 .hero-floating-flag {
   position: absolute;
-  will-change: transform, opacity;
+  will-change: transform;
   filter: blur(1px);
   animation: heroFlagFloat linear infinite;
   border-radius: 2px;
@@ -342,13 +331,9 @@ body::after {
 
 @keyframes heroFlagFloat {
   0% {
-    transform: translate(0, 0) rotate(0deg);
-    opacity: 1;
+    transform: translate(0, 0);
   }
   100% {
-    transform:
-      translate(var(--drift-x, 0px), var(--drift-y, -60px))
-      rotate(var(--rotation, 0deg));
-    opacity: 0.3;
+    transform: translate(var(--drift-x, 0px), var(--drift-y, -40px));
   }
 }

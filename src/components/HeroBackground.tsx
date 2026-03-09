@@ -26,11 +26,10 @@ interface FloatingFlag {
   y: number;
   size: number;
   opacity: number;
-  duration: number;
-  delay: number;
+  driftDuration: number;
+  driftDelay: number;
   driftX: number;
   driftY: number;
-  rotation: number;
 }
 
 function generateFlags(count: number): FloatingFlag[] {
@@ -41,24 +40,24 @@ function generateFlags(count: number): FloatingFlag[] {
     y: Math.random() * 100,
     size: 25 + Math.random() * 20,
     opacity: 0.06 + Math.random() * 0.04,
-    duration: 20 + Math.random() * 20,
-    delay: -(Math.random() * 30),
-    driftX: -30 + Math.random() * 60,
-    driftY: -(40 + Math.random() * 60),
-    rotation: -10 + Math.random() * 20,
+    // 40-80 second drift loops — very slow, ambient
+    driftDuration: 40 + Math.random() * 40,
+    driftDelay: -(Math.random() * 40),
+    // Gentle drift distances
+    driftX: -20 + Math.random() * 40,
+    driftY: -(30 + Math.random() * 40),
   }));
 }
 
 function flagUrl(code: string): string {
-  // Use flagcdn.com — the same CDN used by the Flag component
   const c = code.toLowerCase();
   return `https://flagcdn.com/w80/${c}.png`;
 }
 
 export default function HeroBackground() {
-  // Generate flag data once on mount
-  const flags = useMemo(() => generateFlags(24), []);
-  const mobileFlags = useMemo(() => flags.slice(0, 12), [flags]);
+  // 15 flags on desktop, 8 on mobile
+  const flags = useMemo(() => generateFlags(15), []);
+  const mobileFlags = useMemo(() => flags.slice(0, 8), [flags]);
 
   return (
     <>
@@ -78,11 +77,10 @@ export default function HeroBackground() {
               top: `${f.y}%`,
               width: `${f.size}px`,
               opacity: f.opacity,
-              animationDuration: `${f.duration}s`,
-              animationDelay: `${f.delay}s`,
+              animationDuration: `${f.driftDuration}s`,
+              animationDelay: `${f.driftDelay}s`,
               ["--drift-x" as string]: `${f.driftX}px`,
               ["--drift-y" as string]: `${f.driftY}px`,
-              ["--rotation" as string]: `${f.rotation}deg`,
             }}
             loading="eager"
           />
@@ -102,11 +100,10 @@ export default function HeroBackground() {
               top: `${f.y}%`,
               width: `${f.size}px`,
               opacity: f.opacity,
-              animationDuration: `${f.duration}s`,
-              animationDelay: `${f.delay}s`,
+              animationDuration: `${f.driftDuration}s`,
+              animationDelay: `${f.driftDelay}s`,
               ["--drift-x" as string]: `${f.driftX}px`,
               ["--drift-y" as string]: `${f.driftY}px`,
-              ["--rotation" as string]: `${f.rotation}deg`,
             }}
             loading="eager"
           />

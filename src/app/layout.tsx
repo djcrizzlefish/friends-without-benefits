@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
-import CustomCursor from "@/components/CustomCursor";
 import LoadingScreen from "@/components/LoadingScreen";
 
 export const metadata: Metadata = {
@@ -37,7 +36,6 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body className="min-h-screen bg-navy-900 font-body antialiased">
         <LoadingScreen />
-        <CustomCursor />
         <Navbar />
         <main className="pb-20">{children}</main>
       </body>
