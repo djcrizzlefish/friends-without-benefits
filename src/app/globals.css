@@ -325,15 +325,15 @@ body::after {
   position: absolute;
   will-change: transform;
   filter: blur(1px);
-  animation: heroFlagFloat linear infinite;
+  animation: heroFlagFloat ease-in-out infinite;
   border-radius: 2px;
 }
 
 @keyframes heroFlagFloat {
-  0% {
+  0%, 100% {
     transform: translate(0, 0);
   }
-  100% {
+  50% {
     transform: translate(var(--drift-x, 0px), var(--drift-y, -40px));
   }
 }
