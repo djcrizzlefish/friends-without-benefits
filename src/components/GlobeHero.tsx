@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import type { Vector3 as Vector3Type } from "three";
 
 // Lat/lng of all 48 qualified nations (approximate centers)
 const NATION_COORDS: [number, number][] = [
@@ -140,7 +141,7 @@ export default function GlobeHero() {
 
       // Latitude rings (wireframe circles)
       for (let lat = -60; lat <= 60; lat += 30) {
-        const ringPoints: THREE.Vector3[] = [];
+        const ringPoints: Vector3Type[] = [];
         const segments = isMobile ? 36 : 64;
         for (let i = 0; i <= segments; i++) {
           const lng = (i / segments) * 360 - 180;
@@ -158,7 +159,7 @@ export default function GlobeHero() {
 
       // Longitude lines
       for (let lng = -180; lng < 180; lng += 30) {
-        const linePoints: THREE.Vector3[] = [];
+        const linePoints: Vector3Type[] = [];
         const segments = isMobile ? 24 : 48;
         for (let i = 0; i <= segments; i++) {
           const lat = (i / segments) * 160 - 80;
