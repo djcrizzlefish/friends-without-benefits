@@ -14,13 +14,8 @@ interface LeaderboardProps {
 }
 
 function PointChangeBadge({ change }: { change: number }) {
-  if (change === 0) {
-    return (
-      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold bg-gray-700/50 text-gray-500">
-        +0
-      </span>
-    );
-  }
+  if (change === 0) return null;
+
   return (
     <motion.span
       initial={{ opacity: 0, scale: 0.5 }}
@@ -43,6 +38,7 @@ function EliminationCounter({
   let colorClass = "text-pitch-green";
   if (alive <= 1) colorClass = "text-pitch-red";
   else if (alive <= 3) colorClass = "text-yellow-400";
+
   return (
     <span className={`text-[10px] sm:text-xs font-medium ${colorClass}`}>
       {alive}/{total} alive
@@ -62,8 +58,10 @@ function TiltCard({
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [style, setStyle] = useState<React.CSSProperties>({});
-  const [hoveredFlags, setHoveredFlags] = useState(false);
-  const isFine = typeof window !== "undefined" && window.matchMedia?.("(pointer: fine)").matches;
+
+  const isFine =
+    typeof window !== "undefined" &&
+    window.matchMedia?.("(pointer: fine)").matches;
 
   const handleMouseMove = useCallback(
     (e: React.MouseEvent) => {
@@ -71,6 +69,13 @@ function TiltCard({
       const rect = cardRef.current.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width - 0.5;
       const y = (e.clientY - rect.top) / rect.height - 0.5;
+      const pctX = ((e.clientX - rect.left) / rect.width) * 100;
+      const pctY = ((e.clientY - rect.top) / rect.height) * 100;
+
+      // Update CSS custom properties for the shine effect
+      cardRef.current.style.setProperty("--mouse-x", `${pctX}%`);
+      cardRef.current.style.setProperty("--mouse-y", `${pctY}%`);
+
       setStyle({
         transform: `perspective(800px) rotateY(${x * 4}deg) rotateX(${-y * 4}deg)`,
         transition: "transform 100ms ease",
@@ -84,11 +89,6 @@ function TiltCard({
       transform: "perspective(800px) rotateY(0deg) rotateX(0deg)",
       transition: "transform 300ms ease",
     });
-    setHoveredFlags(false);
-  }, []);
-
-  const handleMouseEnter = useCallback(() => {
-    setHoveredFlags(true);
   }, []);
 
   const handleClick = useCallback((e: React.MouseEvent) => {
@@ -110,16 +110,14 @@ function TiltCard({
       style={style}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      onMouseEnter={handleMouseEnter}
       onClick={handleClick}
-      data-hovered-flags={hoveredFlags}
     >
       {/* Shine overlay */}
       <div
         className="absolute inset-0 rounded-xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
         style={{
           background:
-            "radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255,255,255,0.03) 0%, transparent 60%)",
+            "radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255,255,255,0.06) 0%, transparent 60%)",
         }}
       />
       {children}
@@ -151,6 +149,7 @@ export default function Leaderboard({ standings, teams }: LeaderboardProps) {
         {standings.map((standing, i) => {
           const isFirst = standing.rank === 1;
           const isOdd = i % 2 === 0;
+
           return (
             <motion.div
               key={standing.id}
@@ -160,13 +159,11 @@ export default function Leaderboard({ standings, teams }: LeaderboardProps) {
                 rotate: isOdd ? -2 : 2,
               }}
               animate={
-                isInView
-                  ? { opacity: 1, x: 0, rotate: 0 }
-                  : {}
+                isInView ? { opacity: 1, x: 0, rotate: 0 } : {}
               }
               transition={{
-                delay: i * 0.08,
-                duration: 0.6,
+                delay: i * 0.05,
+                duration: 0.5,
                 ease: [0.25, 0.46, 0.45, 0.94],
               }}
             >
@@ -174,7 +171,9 @@ export default function Leaderboard({ standings, teams }: LeaderboardProps) {
                 <TiltCard
                   isFirst={isFirst}
                   className={`glass-card rounded-xl p-4 sm:p-5 flex items-center gap-3 sm:gap-4 hover:border-white/10 transition-all duration-300 cursor-pointer group relative ${
-                    isFirst ? "gold-glow border-gold-400/20 gold-pulse" : ""
+                    isFirst
+                      ? "gold-glow border-gold-400/20 gold-pulse"
+                      : ""
                   }`}
                 >
                   {/* Rank */}
@@ -255,6 +254,23 @@ export default function Leaderboard({ standings, teams }: LeaderboardProps) {
                     <p className="text-[10px] sm:text-xs text-gray-500 uppercase tracking-wider">
                       pts
                     </p>
+                  </div>
+
+                  {/* Chevron arrow to indicate clickability */}
+                  <div className="shrink-0 text-gray-600 group-hover:text-gold-400 transition-colors ml-1 hidden sm:block">
+                    <svg
+                      className="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
                   </div>
                 </TiltCard>
               </Link>

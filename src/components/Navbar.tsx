@@ -34,8 +34,9 @@ export default function Navbar() {
             {links.map((link) => {
               const isActive =
                 link.href === "/"
-                  ? pathname === "/"
+                  ? pathname === "/" || pathname.startsWith("/managers")
                   : pathname.startsWith(link.href);
+
               return (
                 <Link
                   key={link.href}
@@ -108,8 +109,9 @@ export default function Navbar() {
               {links.map((link) => {
                 const isActive =
                   link.href === "/"
-                    ? pathname === "/"
+                    ? pathname === "/" || pathname.startsWith("/managers")
                     : pathname.startsWith(link.href);
+
                 return (
                   <Link
                     key={link.href}

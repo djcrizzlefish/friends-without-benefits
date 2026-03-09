@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Match, Manager } from "@/lib/types";
 import { buildTeamOwnerMap } from "@/lib/scoring";
+import { formatDate } from "@/lib/data";
 import MatchCard from "./MatchCard";
 
 const STAGES = [
@@ -23,6 +24,7 @@ interface Props {
 
 export default function MatchesClient({ matches, managers }: Props) {
   const [activeStage, setActiveStage] = useState("All");
+
   const teamOwnerMap = buildTeamOwnerMap(managers);
 
   const filtered =
@@ -33,6 +35,20 @@ export default function MatchesClient({ matches, managers }: Props) {
   const sorted = [...filtered].sort(
     (a, b) => b.date.localeCompare(a.date) || b.id - a.id
   );
+
+  // Group matches by date
+  const groupedByDate: { date: string; matches: Match[] }[] = [];
+  for (const match of sorted) {
+    const last = groupedByDate[groupedByDate.length - 1];
+    if (last && last.date === match.date) {
+      last.matches.push(match);
+    } else {
+      groupedByDate.push({ date: match.date, matches: [match] });
+    }
+  }
+
+  // Running index for staggered animation
+  let runningIndex = 0;
 
   return (
     <div className="mx-auto max-w-4xl px-4 sm:px-6 pt-8 sm:pt-12">
@@ -68,7 +84,7 @@ export default function MatchesClient({ matches, managers }: Props) {
         })}
       </div>
 
-      {/* Match cards */}
+      {/* Match cards grouped by date */}
       {sorted.length === 0 ? (
         <motion.div
           initial={{ opacity: 0 }}
@@ -87,15 +103,31 @@ export default function MatchesClient({ matches, managers }: Props) {
           </p>
         </motion.div>
       ) : (
-        <div className="space-y-3">
-          {sorted.map((match, i) => (
-            <MatchCard
-              key={match.id}
-              match={match}
-              index={i}
-              teamOwnerMap={teamOwnerMap}
-            />
-          ))}
+        <div className="space-y-8">
+          {groupedByDate.map((group) => {
+            const startIndex = runningIndex;
+            runningIndex += group.matches.length;
+
+            return (
+              <div key={group.date}>
+                <h3 className="font-display text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3 flex items-center gap-3">
+                  <span className="h-px flex-1 bg-white/5" />
+                  {formatDate(group.date)}
+                  <span className="h-px flex-1 bg-white/5" />
+                </h3>
+                <div className="space-y-3">
+                  {group.matches.map((match, j) => (
+                    <MatchCard
+                      key={match.id}
+                      match={match}
+                      index={startIndex + j}
+                      teamOwnerMap={teamOwnerMap}
+                    />
+                  ))}
+                </div>
+              </div>
+            );
+          })}
         </div>
       )}
     </div>
