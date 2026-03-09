@@ -68,7 +68,7 @@ export default function RulesClient({ managerCount, pot, entryFee }: Props) {
       ],
     },
     {
-      icon: "🔗",
+      icon: "🕗",
       title: "Tiebreakers",
       items: [
         "1st tiebreaker: Most total advancement bonus points",
@@ -151,4 +151,5 @@ export default function RulesClient({ managerCount, pot, entryFee }: Props) {
         ))}
       </div>
     </div>
-        
+  );
+}

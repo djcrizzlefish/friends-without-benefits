@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ManagerStanding, Team } from "A/lib/types";
+import { ManagerStanding, Team } from "@/lib/types";
 import ManagerPhoto from "./ManagerPhoto";
 import Flag from "./Flag";
 import AnimatedNumber from "./AnimatedNumber";

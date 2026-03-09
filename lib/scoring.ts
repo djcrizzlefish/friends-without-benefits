@@ -201,6 +201,7 @@ export function computeLeaderboard(
     const managerTeamStats = manager.teams
       .map((teamName) => teamStats.get(teamName))
       .filter(Boolean) as TeamStats[];
+
     const totalPoints = managerTeamStats.reduce((sum, t) => sum + t.totalPoints, 0);
     const matchPoints = managerTeamStats.reduce((sum, t) => sum + t.matchPoints, 0);
     const advancementPoints = managerTeamStats.reduce((sum, t) => sum + t.advancementPoints, 0);

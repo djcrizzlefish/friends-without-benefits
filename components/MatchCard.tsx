@@ -92,4 +92,5 @@ export default function MatchCard({ match, index = 0 }: MatchCardProps) {
         </div>
       </div>
     </motion.div>
-        
+  );
+}

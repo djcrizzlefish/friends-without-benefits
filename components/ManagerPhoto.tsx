@@ -47,4 +47,5 @@ export default function ManagerPhoto({
       className={`${sizeMap[size]} rounded-full object-cover border-2 border-navy-600 shrink-0 ${className}`}
       onError={() => setHasError(true)}
     />
-  )5ßI–
+  );
+}

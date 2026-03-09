@@ -1,6 +1,6 @@
-import { getMatches } from "A/lib/data";
-import PageTransition from "A/components/PageTransition";
-import MatchesClient from "A/components/MatchesClient";
+import { getMatches } from "@/lib/data";
+import PageTransition from "@/components/PageTransition";
+import MatchesClient from "@/components/MatchesClient";
 
 export default function MatchesPage() {
   const matches = getMatches();
@@ -8,4 +8,5 @@ export default function MatchesPage() {
     <PageTransition>
       <MatchesClient matches={matches} />
     </PageTransition>
-  )5ßI–
+  );
+}
