@@ -1,121 +1,117 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useMemo } from "react";
+
+// Country codes for the 48 qualified nations
+const ALL_CODES = [
+  "US", "CA", "MX", "FR", "ES", "DE", "GB-ENG", "IT", "NL", "CH",
+  "BE", "PT", "PL", "FI", "DK", "SE", "IE", "RS", "HR", "AT",
+  "GR", "SI", "BR", "AR", "CO", "EC", "PY", "UY", "GH", "NG",
+  "CI", "CM", "MA", "DZ", "TN", "ZA", "JP", "KR", "QA", "AE",
+  "IR", "TH", "NZ", "AU", "SA", "WLS", "SCO", "SN",
+];
+
+function shuffle<T>(arr: T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+interface FloatingFlag {
+  code: string;
+  x: number;
+  y: number;
+  size: number;
+  opacity: number;
+  duration: number;
+  delay: number;
+  driftX: number;
+  driftY: number;
+  rotation: number;
+}
+
+function generateFlags(count: number): FloatingFlag[] {
+  const codes = shuffle(ALL_CODES).slice(0, count);
+  return codes.map((code) => ({
+    code,
+    x: Math.random() * 100,
+    y: Math.random() * 100,
+    size: 25 + Math.random() * 20,
+    opacity: 0.06 + Math.random() * 0.04,
+    duration: 20 + Math.random() * 20,
+    delay: -(Math.random() * 30),
+    driftX: -30 + Math.random() * 60,
+    driftY: -(40 + Math.random() * 60),
+    rotation: -10 + Math.random() * 20,
+  }));
+}
+
+function flagUrl(code: string): string {
+  // Use flagcdn.com — the same CDN used by the Flag component
+  const c = code.toLowerCase();
+  return `https://flagcdn.com/w80/${c}.png`;
+}
 
 export default function HeroBackground() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    let animationId: number;
-    let particles: Array<{
-      x: number;
-      y: number;
-      vx: number;
-      vy: number;
-      size: number;
-      alpha: number;
-      color: string;
-    }> = [];
-
-    const colors = [
-      "rgba(251, 191, 36, ", // gold
-      "rgba(245, 158, 11, ", // dark gold
-      "rgba(217, 119, 6, ",  // amber
-      "rgba(255, 255, 255, ", // white
-    ];
-
-    function resize() {
-      if (!canvas) return;
-      canvas.width = canvas.offsetWidth * window.devicePixelRatio;
-      canvas.height = canvas.offsetHeight * window.devicePixelRatio;
-      ctx!.scale(window.devicePixelRatio, window.devicePixelRatio);
-    }
-
-    function initParticles() {
-      if (!canvas) return;
-      particles = [];
-      const count = Math.min(60, Math.floor(canvas.offsetWidth / 15));
-      for (let i = 0; i < count; i++) {
-        particles.push({
-          x: Math.random() * canvas.offsetWidth,
-          y: Math.random() * canvas.offsetHeight,
-          vx: (Math.random() - 0.5) * 0.3,
-          vy: (Math.random() - 0.5) * 0.2 - 0.1,
-          size: Math.random() * 2 + 0.5,
-          alpha: Math.random() * 0.4 + 0.1,
-          color: colors[Math.floor(Math.random() * colors.length)],
-        });
-      }
-    }
-
-    function animate() {
-      if (!canvas || !ctx) return;
-      const w = canvas.offsetWidth;
-      const h = canvas.offsetHeight;
-      ctx.clearRect(0, 0, w, h);
-
-      for (const p of particles) {
-        p.x += p.vx;
-        p.y += p.vy;
-
-        // Wrap around
-        if (p.x < -10) p.x = w + 10;
-        if (p.x > w + 10) p.x = -10;
-        if (p.y < -10) p.y = h + 10;
-        if (p.y > h + 10) p.y = -10;
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = p.color + p.alpha + ")";
-        ctx.fill();
-      }
-
-      // Draw subtle connections between nearby particles
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 120) {
-            ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = `rgba(251, 191, 36, ${0.03 * (1 - dist / 120)})`;
-            ctx.lineWidth = 0.5;
-            ctx.stroke();
-          }
-        }
-      }
-
-      animationId = requestAnimationFrame(animate);
-    }
-
-    resize();
-    initParticles();
-    animate();
-
-    window.addEventListener("resize", () => {
-      resize();
-      initParticles();
-    });
-
-    return () => {
-      cancelAnimationFrame(animationId);
-      window.removeEventListener("resize", resize);
-    };
-  }, []);
+  // Generate flag data once on mount
+  const flags = useMemo(() => generateFlags(24), []);
+  const mobileFlags = useMemo(() => flags.slice(0, 12), [flags]);
 
   return (
-    <canvas
-      ref={canvasRef}
-      className="absolute inset-0 w-full h-full pointer-events-none"
-      style={{ opacity: 0.6 }}
-    />
+    <>
+      {/* Layer 1: Animated gradient mesh */}
+      <div className="hero-gradient-mesh" />
+
+      {/* Layer 2: Floating flags — full set for desktop */}
+      <div className="hero-flags-container hidden sm:block" aria-hidden="true">
+        {flags.map((f, i) => (
+          <img
+            key={i}
+            src={flagUrl(f.code)}
+            alt=""
+            className="hero-floating-flag"
+            style={{
+              left: `${f.x}%`,
+              top: `${f.y}%`,
+              width: `${f.size}px`,
+              opacity: f.opacity,
+              animationDuration: `${f.duration}s`,
+              animationDelay: `${f.delay}s`,
+              ["--drift-x" as string]: `${f.driftX}px`,
+              ["--drift-y" as string]: `${f.driftY}px`,
+              ["--rotation" as string]: `${f.rotation}deg`,
+            }}
+            loading="eager"
+          />
+        ))}
+      </div>
+
+      {/* Layer 2: Floating flags — reduced set for mobile */}
+      <div className="hero-flags-container sm:hidden" aria-hidden="true">
+        {mobileFlags.map((f, i) => (
+          <img
+            key={i}
+            src={flagUrl(f.code)}
+            alt=""
+            className="hero-floating-flag"
+            style={{
+              left: `${f.x}%`,
+              top: `${f.y}%`,
+              width: `${f.size}px`,
+              opacity: f.opacity,
+              animationDuration: `${f.duration}s`,
+              animationDelay: `${f.delay}s`,
+              ["--drift-x" as string]: `${f.driftX}px`,
+              ["--drift-y" as string]: `${f.driftY}px`,
+              ["--rotation" as string]: `${f.rotation}deg`,
+            }}
+            loading="eager"
+          />
+        ))}
+      </div>
+    </>
   );
 }

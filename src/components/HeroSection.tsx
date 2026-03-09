@@ -1,13 +1,11 @@
 "use client";
 
-import dynamic from "next/dynamic";
-
-const GlobeHero = dynamic(() => import("./GlobeHero"), { ssr: false });
+import HeroBackground from "./HeroBackground";
 
 export default function HeroSection() {
   return (
     <header className="relative pt-12 pb-10 sm:pt-20 sm:pb-14 text-center overflow-hidden">
-      <GlobeHero />
+      <HeroBackground />
       <div className="relative z-10">
         <h1 className="font-display text-5xl sm:text-7xl lg:text-8xl font-bold tracking-tight gradient-gold leading-none">
           FRIENDS WITHOUT
